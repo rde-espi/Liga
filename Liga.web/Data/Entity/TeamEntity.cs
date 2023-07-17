@@ -9,6 +9,6 @@ namespace Liga.web.Models.Entity
         public string Name { get; set; }
         public string PathLogo { get; set; }
 
-        public Dictionary<PlayerEntity, string> Players { get; set; }
+        //public <PlayerEntity, string> Players { get; set; }
     }
 }
