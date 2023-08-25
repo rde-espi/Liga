@@ -10,22 +10,22 @@ using Liga.web.Models.Entity;
 
 namespace Liga.web.Controllers
 {
-    public class PlayersController : Controller
+    public class PlayerEntitiesController : Controller
     {
         private readonly DataContext _context;
 
-        public PlayersController(DataContext context)
+        public PlayerEntitiesController(DataContext context)
         {
             _context = context;
         }
 
-        // GET: Players
+        // GET: PlayerEntities
         public async Task<IActionResult> Index()
         {
             return View(await _context.Players.ToListAsync());
         }
 
-        // GET: Players/Details/5
+        // GET: PlayerEntities/Details/5
         public async Task<IActionResult> Details(int? id)
         {
             if (id == null)
@@ -43,18 +43,18 @@ namespace Liga.web.Controllers
             return View(playerEntity);
         }
 
-        // GET: Players/Create
+        // GET: PlayerEntities/Create
         public IActionResult Create()
         {
             return View();
         }
 
-        // POST: Players/Create
+        // POST: PlayerEntities/Create
         // To protect from overposting attacks, enable the specific properties you want to bind to.
         // For more details, see http://go.microsoft.com/fwlink/?LinkId=317598.
         [HttpPost]
         [ValidateAntiForgeryToken]
-        public async Task<IActionResult> Create([Bind("Id,Name")] PlayerEntity playerEntity)
+        public async Task<IActionResult> Create([Bind("Id,Name,Salary,IsActive")] PlayerEntity playerEntity)
         {
             if (ModelState.IsValid)
             {
@@ -65,7 +65,7 @@ namespace Liga.web.Controllers
             return View(playerEntity);
         }
 
-        // GET: Players/Edit/5
+        // GET: PlayerEntities/Edit/5
         public async Task<IActionResult> Edit(int? id)
         {
             if (id == null)
@@ -81,12 +81,12 @@ namespace Liga.web.Controllers
             return View(playerEntity);
         }
 
-        // POST: Players/Edit/5
+        // POST: PlayerEntities/Edit/5
         // To protect from overposting attacks, enable the specific properties you want to bind to.
         // For more details, see http://go.microsoft.com/fwlink/?LinkId=317598.
         [HttpPost]
         [ValidateAntiForgeryToken]
-        public async Task<IActionResult> Edit(int id, [Bind("Id,Name")] PlayerEntity playerEntity)
+        public async Task<IActionResult> Edit(int id, [Bind("Id,Name,Salary,IsActive")] PlayerEntity playerEntity)
         {
             if (id != playerEntity.Id)
             {
@@ -116,7 +116,7 @@ namespace Liga.web.Controllers
             return View(playerEntity);
         }
 
-        // GET: Players/Delete/5
+        // GET: PlayerEntities/Delete/5
         public async Task<IActionResult> Delete(int? id)
         {
             if (id == null)
@@ -134,7 +134,7 @@ namespace Liga.web.Controllers
             return View(playerEntity);
         }
 
-        // POST: Players/Delete/5
+        // POST: PlayerEntities/Delete/5
         [HttpPost, ActionName("Delete")]
         [ValidateAntiForgeryToken]
         public async Task<IActionResult> DeleteConfirmed(int id)

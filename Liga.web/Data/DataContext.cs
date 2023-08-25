@@ -7,6 +7,7 @@ namespace Liga.web.Data
     {
 
         public DbSet<PlayerEntity> Players { get; set; }
+        public DbSet<TeamEntity> Teams { get; set; }
         public DataContext(DbContextOptions<DataContext>options) : base(options)
         {
 
