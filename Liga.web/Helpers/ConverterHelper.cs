@@ -10,6 +10,7 @@ namespace Liga.web.Helpers
         {
             return new TeamEntity
             {
+
                 Id = isNew ? 0 : model.Id,
                 Name = model.Name,
                 PathLogo = path,
