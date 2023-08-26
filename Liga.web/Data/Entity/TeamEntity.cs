@@ -15,6 +15,7 @@ namespace Liga.web.Models.Entity
         public string Name { get; set; }
         public string PathLogo { get; set; }
 
+        public User User { get; set; }
         public ICollection<PlayerEntity>Players { get; set; }
     }
 }

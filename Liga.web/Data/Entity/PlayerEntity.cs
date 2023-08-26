@@ -25,5 +25,6 @@ namespace Liga.web.Models.Entity
         [Display (Name = "Last Login")]
         public DateTime LastLogin=DateTime.Now;
 
+        public TeamManagerUser TeamManager { get; set; }
     }
 }

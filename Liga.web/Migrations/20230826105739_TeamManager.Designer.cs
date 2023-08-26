@@ -4,14 +4,16 @@ using Liga.web.Data;
 using Microsoft.EntityFrameworkCore;
 using Microsoft.EntityFrameworkCore.Infrastructure;
 using Microsoft.EntityFrameworkCore.Metadata;
+using Microsoft.EntityFrameworkCore.Migrations;
 using Microsoft.EntityFrameworkCore.Storage.ValueConversion;
 
 namespace Liga.web.Migrations
 {
     [DbContext(typeof(DataContext))]
-    partial class DataContextModelSnapshot : ModelSnapshot
+    [Migration("20230826105739_TeamManager")]
+    partial class TeamManager
     {
-        protected override void BuildModel(ModelBuilder modelBuilder)
+        protected override void BuildTargetModel(ModelBuilder modelBuilder)
         {
 #pragma warning disable 612, 618
             modelBuilder
@@ -29,10 +31,6 @@ namespace Liga.web.Migrations
 
                     b.Property<string>("ConcurrencyStamp")
                         .IsConcurrencyToken()
-                        .HasColumnType("nvarchar(max)");
-
-                    b.Property<string>("Discriminator")
-                        .IsRequired()
                         .HasColumnType("nvarchar(max)");
 
                     b.Property<string>("Email")
@@ -92,8 +90,6 @@ namespace Liga.web.Migrations
                         .HasFilter("[NormalizedUserName] IS NOT NULL");
 
                     b.ToTable("AspNetUsers");
-
-                    b.HasDiscriminator<string>("Discriminator").HasValue("User");
                 });
 
             modelBuilder.Entity("Liga.web.Models.Entity.PlayerEntity", b =>
@@ -144,12 +140,7 @@ namespace Liga.web.Migrations
                     b.Property<string>("PathLogo")
                         .HasColumnType("nvarchar(max)");
 
-                    b.Property<string>("UserId")
-                        .HasColumnType("nvarchar(450)");
-
                     b.HasKey("Id");
-
-                    b.HasIndex("UserId");
 
                     b.ToTable("Teams");
                 });
@@ -285,40 +276,19 @@ namespace Liga.web.Migrations
                     b.ToTable("AspNetUserTokens");
                 });
 
-            modelBuilder.Entity("Liga.web.Data.Entity.TeamManagerUser", b =>
-                {
-                    b.HasBaseType("Liga.web.Data.Entity.User");
-
-                    b.Property<int?>("TeamId")
-                        .HasColumnType("int");
-
-                    b.HasIndex("TeamId");
-
-                    b.HasDiscriminator().HasValue("TeamManagerUser");
-                });
-
             modelBuilder.Entity("Liga.web.Models.Entity.PlayerEntity", b =>
                 {
                     b.HasOne("Liga.web.Models.Entity.TeamEntity", "PlayerTeam")
                         .WithMany("Players")
                         .HasForeignKey("PlayerTeamId");
 
-                    b.HasOne("Liga.web.Data.Entity.TeamManagerUser", "TeamManager")
+                    b.HasOne("Liga.web.Data.Entity.User", "TeamManager")
                         .WithMany()
                         .HasForeignKey("TeamManagerId");
 
                     b.Navigation("PlayerTeam");
 
                     b.Navigation("TeamManager");
-                });
-
-            modelBuilder.Entity("Liga.web.Models.Entity.TeamEntity", b =>
-                {
-                    b.HasOne("Liga.web.Data.Entity.User", "User")
-                        .WithMany()
-                        .HasForeignKey("UserId");
-
-                    b.Navigation("User");
                 });
 
             modelBuilder.Entity("Microsoft.AspNetCore.Identity.IdentityRoleClaim<string>", b =>
@@ -370,15 +340,6 @@ namespace Liga.web.Migrations
                         .HasForeignKey("UserId")
                         .OnDelete(DeleteBehavior.Cascade)
                         .IsRequired();
-                });
-
-            modelBuilder.Entity("Liga.web.Data.Entity.TeamManagerUser", b =>
-                {
-                    b.HasOne("Liga.web.Models.Entity.TeamEntity", "Team")
-                        .WithMany()
-                        .HasForeignKey("TeamId");
-
-                    b.Navigation("Team");
                 });
 
             modelBuilder.Entity("Liga.web.Models.Entity.TeamEntity", b =>

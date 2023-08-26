@@ -7,22 +7,27 @@ using Microsoft.AspNetCore.Mvc.Rendering;
 using Microsoft.EntityFrameworkCore;
 using Liga.web.Data;
 using Liga.web.Models.Entity;
+using Liga.web.Helpers;
 
 namespace Liga.web.Controllers
 {
     public class TeamsController : Controller
     {
         private readonly ITeamRepository _teamRepository;
+        private readonly IUserHelper _userHelper;
 
-        public TeamsController(ITeamRepository teamRepository)
+        public TeamsController(
+            ITeamRepository teamRepository,
+            IUserHelper userHelper)
         {
             _teamRepository = teamRepository;
+            _userHelper = userHelper;
         }
 
         // GET: Teams
         public async Task<IActionResult> Index()
         {
-            return View(_teamRepository.GetAll());
+            return View(_teamRepository.GetAll().OrderBy(t=>t.Name));
         }
 
         // GET: Teams/Details/5
@@ -57,6 +62,7 @@ namespace Liga.web.Controllers
         {
             if (ModelState.IsValid)
             {
+                teamEntity.User = await _userHelper.GetUserByEmailAsync("reinaldo_7531@hotmail.com");
                 await _teamRepository.CreateAsync(teamEntity);
                 return RedirectToAction(nameof(Index));
             }
@@ -95,7 +101,8 @@ namespace Liga.web.Controllers
             {
                 try
                 {
-                    _teamRepository.UpdateAsync(teamEntity);
+                    teamEntity.User = await _userHelper.GetUserByEmailAsync("reinaldo_7531@hotmail.com");
+                    await _teamRepository.UpdateAsync(teamEntity);
                 }
                 catch (DbUpdateConcurrencyException)
                 {
