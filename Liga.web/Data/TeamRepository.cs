@@ -1,4 +1,6 @@
 ﻿using Liga.web.Models.Entity;
+using Microsoft.EntityFrameworkCore;
+using System.Linq;
 
 namespace Liga.web.Data
 {
@@ -9,6 +11,11 @@ namespace Liga.web.Data
         public TeamRepository(DataContext dataContext) : base(dataContext)
         {
             _context = dataContext;
+        }
+
+        public IQueryable GetAllWithUsers()
+        {
+            return _context.Teams.Include(t => t.User);
         }
     }
 }

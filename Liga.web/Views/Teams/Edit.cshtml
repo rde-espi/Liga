@@ -1,4 +1,4 @@
-﻿@model Liga.web.Models.Entity.TeamEntity
+﻿@model Liga.web.Models.TeamViewModel
 
 @{
     ViewData["Title"] = "Edit";
@@ -10,29 +10,35 @@
 <hr />
 <div class="row">
     <div class="col-md-4">
-        <form asp-action="Edit">
+        <form asp-action="Edit" enctype="multipart/form-data">
             <div asp-validation-summary="ModelOnly" class="text-danger"></div>
             <input type="hidden" asp-for="Id" />
+            <input type="hidden" asp-for="PathLogo" />
             <div class="form-group">
                 <label asp-for="Name" class="control-label"></label>
                 <input asp-for="Name" class="form-control" />
                 <span asp-validation-for="Name" class="text-danger"></span>
             </div>
             <div class="form-group">
-                <label asp-for="PathLogo" class="control-label"></label>
-                <input asp-for="PathLogo" class="form-control" />
-                <span asp-validation-for="PathLogo" class="text-danger"></span>
+                <label asp-for="Imagefile" class="control-label"></label>
+                <input asp-for="Imagefile" class="form-control" type="file" />
+                <span asp-validation-for="Imagefile" class="text-danger"></span>
             </div>
             <div class="form-group">
-                <input type="submit" value="Save" class="btn btn-primary" />
+                <input type="submit" value="Save" class="btn btn-success" />
+                <a asp-action="Index" class="btn btn-primary">Back to List</a>
             </div>
         </form>
     </div>
+    <div class="col-md-4">
+    @if (!string.IsNullOrEmpty(Model.PathLogo))
+    {
+        <img src="@Url.Content(Model.PathLogo)" alt="Logo" style="width:300px;height:450px;max-width:100%;height:auto" />
+    }
+    </div>
 </div>
 
-<div>
-    <a asp-action="Index">Back to List</a>
-</div>
+
 
 @section Scripts {
     @{await Html.RenderPartialAsync("_ValidationScriptsPartial");}
