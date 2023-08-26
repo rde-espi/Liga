@@ -18,13 +18,19 @@ namespace Liga.web.Controllers
     {
         private readonly ITeamRepository _teamRepository;
         private readonly IUserHelper _userHelper;
+        private readonly IImageHelper _imageHelper;
+        private readonly IConverterHelper _converterHelper;
 
         public TeamsController(
             ITeamRepository teamRepository,
-            IUserHelper userHelper)
+            IUserHelper userHelper,
+            IImageHelper imageHelper,
+            IConverterHelper converterHelper)
         {
             _teamRepository = teamRepository;
             _userHelper = userHelper;
+            _imageHelper = imageHelper;
+            _converterHelper = converterHelper;
         }
 
         // GET: Teams
@@ -68,18 +74,12 @@ namespace Liga.web.Controllers
                 var path = string.Empty;
                 if(model.Imagefile != null && model.Imagefile.Length > 0)
                 {
-                    var guid = Guid.NewGuid().ToString();
-                    var file = $"{guid}.jpg";
 
-                    path = Path.Combine(Directory.GetCurrentDirectory(), "wwwroot\\images\\Teams",file);
-                    using (var stream = new FileStream(path, FileMode.Create))
-                    {
-                        await model.Imagefile.CopyToAsync(stream);
-                    }
-                    path = $"~/images/Teams/{file}";
+                    path = await _imageHelper.UploadImageAsync(model.Imagefile, "Teams");
                 }
 
-                var teamEntity = this.ToTeam(model, path);
+               
+                 var teamEntity = _converterHelper.ToTeam(model, path, true);
                 teamEntity.User = await _userHelper.GetUserByEmailAsync("reinaldo_7531@hotmail.com");
                 await _teamRepository.CreateAsync(teamEntity);
                 return RedirectToAction(nameof(Index));
@@ -87,16 +87,6 @@ namespace Liga.web.Controllers
             return View(model);
         }
 
-        private TeamEntity ToTeam(TeamViewModel model, string path)
-        {
-            return new TeamEntity
-            {
-                Id = model.Id,
-                Name = model.Name,
-                PathLogo = path,
-                User = model.User
-            };
-        }
 
         // GET: Teams/Edit/5
         public async Task<IActionResult> Edit(int? id)
@@ -111,19 +101,8 @@ namespace Liga.web.Controllers
             {
                 return NotFound();
             }
-            var model = ToTeamViewModel(teamEntity);
+            var model = _converterHelper.ToTeamViewModel(teamEntity);
             return View(model);
-        }
-
-        private object ToTeamViewModel(TeamEntity teamEntity)
-        {
-            return new TeamViewModel
-            {
-                Id = teamEntity.Id,
-                Name = teamEntity.Name,
-                PathLogo = teamEntity.PathLogo,
-                User = teamEntity.User
-            };
         }
 
         // POST: Teams/Edit/5
@@ -141,17 +120,10 @@ namespace Liga.web.Controllers
                     var path = model.PathLogo;
                     if(model.Imagefile != null && model.Imagefile.Length > 0)
                     {
-                        var guid = Guid.NewGuid().ToString();
-                        var file = $"{guid}.jpg";
-                        path = Path.Combine(Directory.GetCurrentDirectory(), "wwwroot\\images\\Teams", file);
-                        using(var stream = new FileStream(path, FileMode.Create))
-                        {
-                            await model.Imagefile.CopyToAsync(stream);
-                        }
-                        path = $"~/images/Teams/{file}";
+                        path = await _imageHelper.UploadImageAsync(model.Imagefile, "Teams");
                     }
 
-                    var teamEntity = this.ToTeam(model, path);
+                    var teamEntity = _converterHelper.ToTeam(model, path, false);
                     teamEntity.User = await _userHelper.GetUserByEmailAsync("reinaldo_7531@hotmail.com");
                     await _teamRepository.UpdateAsync(teamEntity);
                 }
