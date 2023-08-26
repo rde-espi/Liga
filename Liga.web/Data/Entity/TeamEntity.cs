@@ -1,10 +1,11 @@
-﻿using System.Collections.Generic;
+﻿using Liga.web.Data.Entity;
+using System.Collections.Generic;
 using System.ComponentModel.DataAnnotations;
 using System.IO;
 
 namespace Liga.web.Models.Entity
 {
-    public class TeamEntity
+    public class TeamEntity : IEntity
     {
         public int Id { get; set; }
 

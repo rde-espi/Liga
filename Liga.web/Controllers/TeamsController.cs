@@ -12,17 +12,17 @@ namespace Liga.web.Controllers
 {
     public class TeamsController : Controller
     {
-        private readonly DataContext _context;
+        private readonly ITeamRepository _teamRepository;
 
-        public TeamsController(DataContext context)
+        public TeamsController(ITeamRepository teamRepository)
         {
-            _context = context;
+            _teamRepository = teamRepository;
         }
 
         // GET: Teams
         public async Task<IActionResult> Index()
         {
-            return View(await _context.Teams.ToListAsync());
+            return View(_teamRepository.GetAll());
         }
 
         // GET: Teams/Details/5
@@ -33,8 +33,7 @@ namespace Liga.web.Controllers
                 return NotFound();
             }
 
-            var teamEntity = await _context.Teams
-                .FirstOrDefaultAsync(m => m.Id == id);
+            var teamEntity = await _teamRepository.GetByIdAsync(id.Value);
             if (teamEntity == null)
             {
                 return NotFound();
@@ -58,8 +57,7 @@ namespace Liga.web.Controllers
         {
             if (ModelState.IsValid)
             {
-                _context.Add(teamEntity);
-                await _context.SaveChangesAsync();
+                await _teamRepository.CreateAsync(teamEntity);
                 return RedirectToAction(nameof(Index));
             }
             return View(teamEntity);
@@ -73,7 +71,7 @@ namespace Liga.web.Controllers
                 return NotFound();
             }
 
-            var teamEntity = await _context.Teams.FindAsync(id);
+            var teamEntity = await _teamRepository.GetByIdAsync(id.Value);
             if (teamEntity == null)
             {
                 return NotFound();
@@ -97,12 +95,11 @@ namespace Liga.web.Controllers
             {
                 try
                 {
-                    _context.Update(teamEntity);
-                    await _context.SaveChangesAsync();
+                    _teamRepository.UpdateAsync(teamEntity);
                 }
                 catch (DbUpdateConcurrencyException)
                 {
-                    if (!TeamEntityExists(teamEntity.Id))
+                    if (!await _teamRepository.ExistAsync(teamEntity.Id))
                     {
                         return NotFound();
                     }
@@ -124,8 +121,7 @@ namespace Liga.web.Controllers
                 return NotFound();
             }
 
-            var teamEntity = await _context.Teams
-                .FirstOrDefaultAsync(m => m.Id == id);
+            var teamEntity = await _teamRepository.GetByIdAsync(id.Value);
             if (teamEntity == null)
             {
                 return NotFound();
@@ -139,15 +135,9 @@ namespace Liga.web.Controllers
         [ValidateAntiForgeryToken]
         public async Task<IActionResult> DeleteConfirmed(int id)
         {
-            var teamEntity = await _context.Teams.FindAsync(id);
-            _context.Teams.Remove(teamEntity);
-            await _context.SaveChangesAsync();
+            var teamEntity = await _teamRepository.GetByIdAsync(id);
+            await _teamRepository.DeleteAsync(teamEntity);
             return RedirectToAction(nameof(Index));
-        }
-
-        private bool TeamEntityExists(int id)
-        {
-            return _context.Teams.Any(e => e.Id == id);
         }
     }
 }

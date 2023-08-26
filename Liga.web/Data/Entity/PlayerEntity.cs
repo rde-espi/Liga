@@ -1,9 +1,10 @@
-﻿using System;
+﻿using Liga.web.Data.Entity;
+using System;
 using System.ComponentModel.DataAnnotations;
 
 namespace Liga.web.Models.Entity
 {
-    public class PlayerEntity : IPlayerEntity
+    public class PlayerEntity : IEntity
     {
         public int Id { get; set; }
 

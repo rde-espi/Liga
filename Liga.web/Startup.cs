@@ -31,6 +31,8 @@ namespace Liga.web
             });
 
             services.AddTransient<SeedDb>();
+            services.AddScoped<ITeamRepository, TeamRepository>();
+            services.AddScoped<IPlayerRepository, PlayerRepository>();
             services.AddControllersWithViews();
         }
 
