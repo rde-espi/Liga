@@ -1,4 +1,5 @@
 ﻿using Liga.web.Data.Entity;
+using System;
 using System.Collections.Generic;
 using System.ComponentModel.DataAnnotations;
 using System.IO;
@@ -13,9 +14,15 @@ namespace Liga.web.Models.Entity
         [Required]
         [MaxLength(50, ErrorMessage = "The field {0} can contain {1} characters.")]
         public string Name { get; set; }
-        public string PathLogo { get; set; }
+
+        [Display(Name ="Team Logo")]
+        public Guid ImageId { get; set; }
 
         public User User { get; set; }
         public ICollection<PlayerEntity>Players { get; set; }
+
+        public string ImageFullPath => ImageId == Guid.Empty
+          ? $"/images/noimage.png"
+          : $"https://supershoptpsirs.blob.core.windows.net/teams-liga/{ImageId}";
     }
 }

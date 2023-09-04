@@ -1,19 +1,20 @@
 ﻿using Liga.web.Models;
 using Liga.web.Models.Entity;
+using System;
 using System.IO;
 
 namespace Liga.web.Helpers
 {
     public class ConverterHelper : IConverterHelper
     {
-        public TeamEntity ToTeam(TeamViewModel model,string path ,bool isNew)
+        public TeamEntity ToTeam(TeamViewModel model,Guid imageId ,bool isNew)
         {
             return new TeamEntity
             {
 
                 Id = isNew ? 0 : model.Id,
                 Name = model.Name,
-                PathLogo = path,
+                ImageId = imageId,
                 User = model.User
             };
         }
@@ -24,7 +25,7 @@ namespace Liga.web.Helpers
             {
                 Id = teamEntity.Id,
                 Name = teamEntity.Name,
-                PathLogo = teamEntity.PathLogo,
+                ImageId = teamEntity.ImageId,
                 User = teamEntity.User
             };
         }

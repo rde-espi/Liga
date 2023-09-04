@@ -18,18 +18,18 @@ namespace Liga.web.Controllers
     {
         private readonly ITeamRepository _teamRepository;
         private readonly IUserHelper _userHelper;
-        private readonly IImageHelper _imageHelper;
+        private readonly IBlobHelper _blobHelper;
         private readonly IConverterHelper _converterHelper;
 
         public TeamsController(
             ITeamRepository teamRepository,
             IUserHelper userHelper,
-            IImageHelper imageHelper,
+            IBlobHelper blobHelper,
             IConverterHelper converterHelper)
         {
             _teamRepository = teamRepository;
             _userHelper = userHelper;
-            _imageHelper = imageHelper;
+            _blobHelper = blobHelper;
             _converterHelper = converterHelper;
         }
 
@@ -71,15 +71,15 @@ namespace Liga.web.Controllers
         {
             if (ModelState.IsValid)
             {
-                var path = string.Empty;
+                Guid imageId = Guid.Empty;
                 if(model.Imagefile != null && model.Imagefile.Length > 0)
                 {
 
-                    path = await _imageHelper.UploadImageAsync(model.Imagefile, "Teams");
+                    imageId = await _blobHelper.UploadBlobAsync(model.Imagefile, "teams-liga");
                 }
 
                
-                 var teamEntity = _converterHelper.ToTeam(model, path, true);
+                 var teamEntity = _converterHelper.ToTeam(model, imageId, true);
                 teamEntity.User = await _userHelper.GetUserByEmailAsync("reinaldo_7531@hotmail.com");
                 await _teamRepository.CreateAsync(teamEntity);
                 return RedirectToAction(nameof(Index));
@@ -117,13 +117,13 @@ namespace Liga.web.Controllers
             {
                 try
                 {
-                    var path = model.PathLogo;
+                    Guid imageId = model.ImageId;
                     if(model.Imagefile != null && model.Imagefile.Length > 0)
                     {
-                        path = await _imageHelper.UploadImageAsync(model.Imagefile, "Teams");
+                        imageId = await _blobHelper.UploadBlobAsync(model.Imagefile, "teams-liga");
                     }
 
-                    var teamEntity = _converterHelper.ToTeam(model, path, false);
+                    var teamEntity = _converterHelper.ToTeam(model, imageId, false);
                     teamEntity.User = await _userHelper.GetUserByEmailAsync("reinaldo_7531@hotmail.com");
                     await _teamRepository.UpdateAsync(teamEntity);
                 }
