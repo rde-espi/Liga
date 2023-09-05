@@ -11,9 +11,11 @@ using Liga.web.Helpers;
 using Liga.web.Models;
 using System.IO;
 using Microsoft.VisualBasic;
+using Microsoft.AspNetCore.Authorization;
 
 namespace Liga.web.Controllers
 {
+    [Authorize]
     public class TeamsController : Controller
     {
         private readonly ITeamRepository _teamRepository;

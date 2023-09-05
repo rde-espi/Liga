@@ -7,9 +7,11 @@ using Microsoft.AspNetCore.Mvc.Rendering;
 using Microsoft.EntityFrameworkCore;
 using Liga.web.Data;
 using Liga.web.Models.Entity;
+using Microsoft.AspNetCore.Authorization;
 
 namespace Liga.web.Controllers
 {
+    [Authorize]
     public class PlayerEntitiesController : Controller
     {
         private readonly DataContext _context;
