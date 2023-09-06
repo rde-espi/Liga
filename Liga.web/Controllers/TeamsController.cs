@@ -82,7 +82,7 @@ namespace Liga.web.Controllers
 
                
                  var teamEntity = _converterHelper.ToTeam(model, imageId, true);
-                teamEntity.User = await _userHelper.GetUserByEmailAsync("reinaldo_7531@hotmail.com");
+                teamEntity.User = await _userHelper.GetUserByEmailAsync(this.User.Identity.Name);
                 await _teamRepository.CreateAsync(teamEntity);
                 return RedirectToAction(nameof(Index));
             }
