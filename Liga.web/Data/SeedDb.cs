@@ -13,6 +13,8 @@ namespace Liga.web.Data
         private readonly DataContext _dataContext;
         private readonly IUserHelper _userHelper;
         private Random _random;
+
+
         public SeedDb(DataContext dataContext,IUserHelper userHelper)
         {
             _dataContext = dataContext;
@@ -23,6 +25,12 @@ namespace Liga.web.Data
         public async Task SeedAsync()
         {
             await _dataContext.Database.EnsureCreatedAsync();
+
+
+            await _userHelper.CheckRoleAsync("Admin");
+            //await _userHelper.CheckRoleAsync("Player");
+            await _userHelper.CheckRoleAsync("TeamManager");
+            await _userHelper.CheckRoleAsync("Employee");
 
             var user = await _userHelper.GetUserByEmailAsync("reinaldo_7531@hotmail.com");
             if (user == null)
@@ -40,9 +48,19 @@ namespace Liga.web.Data
                 {
                     throw new InvalidOperationException("Could not create user in seeder");
                 }
+
+                await _userHelper.AddUserToRoleAsync(user,"Admin");
+
             }
 
-            if(!_dataContext.Teams.Any())
+            var isInRole = await _userHelper.IsUserInRoleAsync(user, "admin");
+            if (!isInRole)
+            {
+                await _userHelper.AddUserToRoleAsync(user, "Admin");
+
+            }
+
+            if (!_dataContext.Teams.Any())
             {
                 AddTeams("Barcelona",user);
                 AddTeams("Real Madrid",user);

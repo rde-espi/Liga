@@ -13,6 +13,8 @@ namespace Liga.web.Helpers
         Task LogoutAsync();
         Task<IdentityResult> ChangePasswordAsync(User user, string oldPassword, string newPassword);
         Task<IdentityResult> UpdateUserAsync(User user);
-
+        Task CheckRoleAsync(string roleName);
+        Task AddUserToRoleAsync(User user, string roleName);
+        Task<bool> IsUserInRoleAsync(User user, string roleName);
     }
 }

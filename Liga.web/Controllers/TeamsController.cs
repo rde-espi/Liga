@@ -59,6 +59,7 @@ namespace Liga.web.Controllers
         }
 
         // GET: Teams/Create
+        [Authorize(Roles ="Admin")]
         public IActionResult Create()
         {
             return View();
@@ -91,6 +92,7 @@ namespace Liga.web.Controllers
 
 
         // GET: Teams/Edit/5
+        [Authorize(Roles = "Admin")]
         public async Task<IActionResult> Edit(int? id)
         {
             if (id == null)
@@ -146,6 +148,8 @@ namespace Liga.web.Controllers
         }
 
         // GET: Teams/Delete/5
+        [Authorize(Roles = "Admin")]
+
         public async Task<IActionResult> Delete(int? id)
         {
             if (id == null)
