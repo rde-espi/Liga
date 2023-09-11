@@ -46,13 +46,13 @@ namespace Liga.web.Controllers
         {
             if (id == null)
             {
-                return NotFound();
+                return new NotFoundViewResult("ProductNotFound");
             }
 
             var teamEntity = await _teamRepository.GetByIdAsync(id.Value);
             if (teamEntity == null)
             {
-                return NotFound();
+                return new NotFoundViewResult("ProductNotFound");
             }
 
             return View(teamEntity);
@@ -97,13 +97,13 @@ namespace Liga.web.Controllers
         {
             if (id == null)
             {
-                return NotFound();
+                return new NotFoundViewResult("ProductNotFound");
             }
 
             var teamEntity = await _teamRepository.GetByIdAsync(id.Value);
             if (teamEntity == null)
             {
-                return NotFound();
+                return new NotFoundViewResult("ProductNotFound");
             }
             var model = _converterHelper.ToTeamViewModel(teamEntity);
             return View(model);
@@ -135,7 +135,7 @@ namespace Liga.web.Controllers
                 {
                     if (!await _teamRepository.ExistAsync(model.Id))
                     {
-                        return NotFound();
+                        return new NotFoundViewResult("ProductNotFound");
                     }
                     else
                     {
@@ -154,13 +154,13 @@ namespace Liga.web.Controllers
         {
             if (id == null)
             {
-                return NotFound();
+                return new NotFoundViewResult("ProductNotFound");
             }
 
             var teamEntity = await _teamRepository.GetByIdAsync(id.Value);
             if (teamEntity == null)
             {
-                return NotFound();
+                return new NotFoundViewResult("ProductNotFound");
             }
 
             return View(teamEntity);
@@ -174,6 +174,11 @@ namespace Liga.web.Controllers
             var teamEntity = await _teamRepository.GetByIdAsync(id);
             await _teamRepository.DeleteAsync(teamEntity);
             return RedirectToAction(nameof(Index));
+        }
+
+        public IActionResult ProductNotFound()
+        {
+            return View();
         }
     }
 }
