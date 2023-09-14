@@ -10,6 +10,9 @@ namespace Liga.web.Data
 
         public DbSet<PlayerEntity> Players { get; set; }
         public DbSet<TeamEntity> Teams { get; set; }
+        public DbSet<Journey>Journeys { get; set; }
+        public DbSet<JourneyDetail>JourneyDetails { get; set; } 
+        public DbSet<JourneyDetailTemp>journeyDetailTemp { get; set; }
         public DataContext(DbContextOptions<DataContext>options) : base(options)
         {
 

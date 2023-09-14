@@ -51,6 +51,8 @@ namespace Liga.web
             services.AddScoped<IUserHelper, UserHelper>();
             services.AddScoped<IConverterHelper, ConverterHelper>();
             services.AddScoped<IBlobHelper, BlobHelper>();
+            services.AddScoped<IJourneyRepository, JourneyRepository>();
+
             services.AddControllersWithViews();
             services.ConfigureApplicationCookie(options =>
             {
