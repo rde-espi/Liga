@@ -7,6 +7,6 @@ namespace Liga.web.Data
     public interface IJourneyRepository : IGenericRepository<Journey>
     {
         Task<IQueryable<Journey>>GetJourneyAsync(string userName);
-
+        Task<IQueryable<JourneyDetailTemp>> GetJourneyDetailTempAsync(string userName);
     }
 }

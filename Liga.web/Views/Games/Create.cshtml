@@ -1,0 +1,60 @@
+﻿@model Liga.web.Data.Entity.Game
+
+@{
+    ViewData["Title"] = "Create";
+}
+
+<h1>Create</h1>
+
+<h4>Game</h4>
+<hr />
+<div class="row">
+    <div class="col-md-4">
+        <form asp-action="Create">
+            <div asp-validation-summary="ModelOnly" class="text-danger"></div>
+            <div class="form-group">
+                <label asp-for="GolsTeamA" class="control-label"></label>
+                <input asp-for="GolsTeamA" class="form-control" />
+                <span asp-validation-for="GolsTeamA" class="text-danger"></span>
+            </div>
+            <div class="form-group">
+                <label asp-for="GolsTeamB" class="control-label"></label>
+                <input asp-for="GolsTeamB" class="form-control" />
+                <span asp-validation-for="GolsTeamB" class="text-danger"></span>
+            </div>
+            <div class="form-group">
+                <label asp-for="YellowCardA" class="control-label"></label>
+                <input asp-for="YellowCardA" class="form-control" />
+                <span asp-validation-for="YellowCardA" class="text-danger"></span>
+            </div>
+            <div class="form-group">
+                <label asp-for="YellowCardB" class="control-label"></label>
+                <input asp-for="YellowCardB" class="form-control" />
+                <span asp-validation-for="YellowCardB" class="text-danger"></span>
+            </div>
+            <div class="form-group">
+                <label asp-for="RedCardA" class="control-label"></label>
+                <input asp-for="RedCardA" class="form-control" />
+                <span asp-validation-for="RedCardA" class="text-danger"></span>
+            </div>
+            <div class="form-group">
+                <label asp-for="RedCardB" class="control-label"></label>
+                <input asp-for="RedCardB" class="form-control" />
+                <span asp-validation-for="RedCardB" class="text-danger"></span>
+            </div>
+            <div class="form-group form-check">
+                <label class="form-check-label">
+                    <input class="form-check-input" asp-for="IsConcluded" /> @Html.DisplayNameFor(model => model.IsConcluded)
+                </label>
+            </div>
+            <div class="form-group">
+                <input type="submit" value="Create" class="btn btn-primary" />
+            </div>
+        </form>
+    </div>
+</div>
+
+<div>
+    <a asp-action="Index">Back to List</a>
+</div>
+

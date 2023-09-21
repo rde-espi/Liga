@@ -17,5 +17,6 @@ namespace Liga.web.Data
         {
 
         }
+        public DbSet<Liga.web.Data.Entity.Game> Game { get; set; }
     }
 }

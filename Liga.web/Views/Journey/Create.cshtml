@@ -1,0 +1,55 @@
+﻿@model IEnumerable<Liga.web.Data.Entity.JourneyDetailTemp>
+
+@{
+    ViewData["Title"] = "Create";
+}
+
+<h1>Create</h1>
+
+<h4>Journey</h4>
+<hr />
+<p>
+    <a asp-action="AddGame" class="btn btn-success">Add Games</a>
+    <a asp-action="StartJourney" class="btn btn-primary" id="btnConfirm">Start Journey</a>
+</p>
+<table class="table">
+    <thead>
+        <tr>
+            <th>
+                @Html.DisplayNameFor(model => model.Id)
+            </th>
+            <th>
+                @Html.DisplayNameFor(model => model.User)
+            </th>
+            <th>
+                @Html.DisplayNameFor(model => model.Games)
+            </th>
+            <th></th>
+        </tr>
+    </thead>
+    <tbody>
+        @foreach (var item in Model)
+        {
+            <tr>
+                <td>
+                    @Html.DisplayFor(ModelItem => item.Id)
+                </td>
+                <td>
+                    @Html.DisplayFor(ModelItem => item.User.FullName)
+                </td>
+                <td>
+                    @Html.DisplayFor(ModelItem => item.Games.Count())
+                </td>
+                <td id="@item.Id">
+                    <a asp-action="Increase" asp-route-id="@item.Id" class="btn btn-warning"><i class="fa fa-plus"></i>Add Games</a>
+                    <a asp-action="Decrease" asp-route-id="@item.Id" class="btn btn-info"><i class="fa fa-minus"></i>Edit Games</a>
+                    <a asp-action="DeleteItem" asp-route-id="@item.Id" class="btn btn-danger" id="btnDeleteItem"><i class="fa fa-trash"></i> Delete</a>
+                </td>
+            </tr>
+        }
+    </tbody>
+</table>
+
+<div>
+    <a asp-action="Index">Back to List</a>
+</div>

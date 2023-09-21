@@ -28,14 +28,28 @@ namespace Liga.web.Data
             {
                 return _context.Journeys
                     .Include(j => j.Games)
-                    .ThenInclude(g => g.Game)
+                    .ThenInclude(g => g.Games)
                     .OrderByDescending(j => j.JourneyEnd);
             }
             return _context.Journeys
                  .Include(j => j.Games)
-                    .ThenInclude(g => g.Game)
+                    .ThenInclude(g => g.Games)
                     .Where(j => j.User == user)
                     .OrderByDescending(j => j.JourneyStart);
+        }
+
+        public async Task<IQueryable<JourneyDetailTemp>> GetJourneyDetailTempAsync(string userName)
+        {
+            var user = await _userHelper.GetUserByEmailAsync(userName);
+            if (user == null)
+            {
+                return null;
+            }
+            return _context.journeyDetailTemp
+                .Include(g => g.Games)
+                .Where(u => u.User == user);
+                
+                
         }
     }
 }

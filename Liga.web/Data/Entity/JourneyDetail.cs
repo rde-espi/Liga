@@ -12,7 +12,7 @@ namespace Liga.web.Data.Entity
         //public User User { get; set; }
 
         [Required]
-        public Game Game { get; set; }
+        public IEnumerable< Game> Games { get; set; }
 
         
 

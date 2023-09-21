@@ -19,11 +19,12 @@
                 </th>
             }
             <th>
-                @Html.DisplayNameFor(model => model.JourneyEnd)
-            </th>
-            <th>
                 @Html.DisplayNameFor(model => model.JourneyStart)
             </th>
+            <th>
+                @Html.DisplayNameFor(model => model.JourneyEnd)
+            </th>
+            
             <th></th>
         </tr>
     </thead>
@@ -36,12 +37,13 @@
                    @Html.DisplayFor(modelItem=> item.User.FullName)
                 </th>
               }
+                <td>
+                    @Html.DisplayFor(modelItem => item.JourneyStart)
+                </td>
             <td>
                 @Html.DisplayFor(modelItem => item.JourneyEnd)
             </td>
-            <td>
-                @Html.DisplayFor(modelItem => item.JourneyStart)
-            </td>
+            
             <td>
                 <a asp-action="Edit" asp-route-id="@item.Id">Edit</a> |
                 <a asp-action="Details" asp-route-id="@item.Id">Details</a> |

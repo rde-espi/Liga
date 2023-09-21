@@ -47,6 +47,7 @@ namespace Liga.web
 
             services.AddTransient<SeedDb>();
             services.AddScoped<ITeamRepository, TeamRepository>();
+            services.AddScoped<IGameRepository, GameRepository>();
             services.AddScoped<IPlayerRepository, PlayerRepository>();
             services.AddScoped<IUserHelper, UserHelper>();
             services.AddScoped<IConverterHelper, ConverterHelper>();

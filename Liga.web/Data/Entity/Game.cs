@@ -16,17 +16,17 @@ namespace Liga.web.Data.Entity
         [Required]
         public TeamEntity TeamB { get; set; }
 
-        [Required]
+        //[Required]
         public uint GolsTeamA { get; set; }
-        [Required]
+        //[Required]
         public uint GolsTeamB { get; set; }
-        [Required]
+        //[Required]
         public uint YellowCardA { get; set; }
-        [Required]
+        //[Required]
         public uint YellowCardB { get; set; }
-        [Required]
+        //[Required]
         public uint RedCardA { get; set; }
-        [Required]
+        //[Required]
         public uint RedCardB { get; set; }
 
         [Required]

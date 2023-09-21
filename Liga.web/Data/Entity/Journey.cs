@@ -16,7 +16,10 @@ namespace Liga.web.Data.Entity
 
         public IEnumerable<JourneyDetail> Games { get; set; }
 
+        [Display(Name ="Started on")]
         public DateTime JourneyStart = DateTime.Now;
+
+        [Display(Name ="Ended in")]
         public DateTime JourneyEnd { get; set; }
 
         //public int ConcludedGames => Games == null ? 0 : Games.Sum(g=>g.)
