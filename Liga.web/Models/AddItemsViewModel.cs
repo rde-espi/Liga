@@ -16,6 +16,7 @@ namespace Liga.web.Models
         [Range(1, int.MaxValue, ErrorMessage = "You must select a Team.")]
         public int TeamBId { get; set; }
         
+        public bool IsConcluded { get; set; }
         public IEnumerable<SelectListItem> Teams { get; set; }
 
     }

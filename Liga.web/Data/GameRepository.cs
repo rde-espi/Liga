@@ -13,7 +13,7 @@ namespace Liga.web.Data
         }
         public IQueryable GetAllWithUsers()
         {
-            return _context.Game.Include(t => t.User);
+            return _context.GameDetailTemp.Include(t => t.User);
         }
     }
 }

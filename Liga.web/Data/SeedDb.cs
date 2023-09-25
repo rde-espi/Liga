@@ -2,6 +2,7 @@
 using Liga.web.Helpers;
 using Liga.web.Models.Entity;
 using Microsoft.AspNetCore.Identity;
+using Microsoft.EntityFrameworkCore;
 using System;
 using System.Linq;
 using System.Threading.Tasks;
@@ -24,7 +25,7 @@ namespace Liga.web.Data
 
         public async Task SeedAsync()
         {
-            await _dataContext.Database.EnsureCreatedAsync();
+            await _dataContext.Database.MigrateAsync();
 
 
             await _userHelper.CheckRoleAsync("Admin");

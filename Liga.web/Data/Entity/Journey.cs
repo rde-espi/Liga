@@ -14,7 +14,7 @@ namespace Liga.web.Data.Entity
         [Required]
         public User User { get; set; }
 
-        public IEnumerable<JourneyDetail> Games { get; set; }
+        public IEnumerable<Game> Games { get; set; }
 
         [Display(Name ="Started on")]
         public DateTime JourneyStart = DateTime.Now;
@@ -22,7 +22,8 @@ namespace Liga.web.Data.Entity
         [Display(Name ="Ended in")]
         public DateTime JourneyEnd { get; set; }
 
-        //public int ConcludedGames => Games == null ? 0 : Games.Sum(g=>g.)
+        [DisplayFormat(DataFormatString = "{0:N2}")]
+        public int ConcludedGames => Games == null ? 0 : Games.Count(Game => Game != null);
 
     }
 }

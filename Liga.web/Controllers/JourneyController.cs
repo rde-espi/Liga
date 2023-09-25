@@ -33,9 +33,21 @@ namespace Liga.web.Controllers
             var model = new AddItemsViewModel
             {
                 Teams = _teamRepository.GetComboTeams(),
+                
             };
             return View(model);
         }
-       
+
+        [HttpPost]
+        public async Task<IActionResult>AddGame(AddItemsViewModel model)
+        {
+            if (ModelState.IsValid)
+            {
+                await _journeyRepository.AddGameToJourneyAsync(model, this.User.Identity.Name);
+                return RedirectToAction("Create","Journey");
+            }
+            return View(model);
+        }
+
     }
 }
