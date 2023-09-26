@@ -14,7 +14,7 @@ namespace Liga.web.Data.Entity
 
         [Required]
         public User User { get; set; }
-
+            
 
         [Required]
         public TeamEntity TeamA { get; set; }

@@ -1,4 +1,5 @@
-﻿using Liga.web.Models;
+﻿using Liga.web.Data.Entity;
+using Liga.web.Models;
 using Liga.web.Models.Entity;
 using System;
 using System.IO;
@@ -29,5 +30,6 @@ namespace Liga.web.Helpers
                 User = teamEntity.User
             };
         }
+        
     }
 }

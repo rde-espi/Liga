@@ -1,4 +1,5 @@
 ﻿using Liga.web.Models.Entity;
+using System.Collections.Generic;
 using System.ComponentModel.DataAnnotations;
 
 namespace Liga.web.Data.Entity
@@ -15,6 +16,7 @@ namespace Liga.web.Data.Entity
         public TeamEntity TeamA { get; set; }
         [Required]
         public TeamEntity TeamB { get; set; }
+        public IEnumerable<TeamEntity> Teams { get; set; }
 
         //[Required]
         public uint? GolsTeamA { get ; set; }

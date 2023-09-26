@@ -8,8 +8,8 @@ namespace Liga.web.Data
     public interface IJourneyRepository : IGenericRepository<Journey>
     {
         Task<IQueryable<Journey>>GetJourneyAsync(string userName);
-        Task<IQueryable<GameDetailTemp>> GetJourneyDetailTempAsync(string userName);
+        Task<IQueryable<GameDetailTemp>> GetJourneyDetailTempsAsync(string userName);
         Task AddGameToJourneyAsync(AddItemsViewModel model, string userName);
-
+        Task ModifyGameAsync(int id, bool isConcluded);
     }
 }

@@ -32,26 +32,33 @@ namespace Liga.web.Data
                 return;
             }
 
-            var game = await _context.GameDetailTemp   
-
+            var game = await _context.GameDetailTemp
                 .Where(g => g.User == user && g.TeamA == teamA && g.TeamB == teamB)
                 .FirstOrDefaultAsync();
-            if(game == null && game.TeamA != game.TeamB)
+
+            if(game == null && teamA != teamB)
             {
                 game = new GameDetailTemp
                 {
-                   TeamA= game.TeamA,
-                   TeamB= game.TeamB,
+                    User = user,
+                   TeamA= teamA,
+                   TeamB= teamB,
+                   GolsTeamA=0,
+                   GolsTeamB=0,
+                   YellowCardA=0,
+                   YellowCardB=0,
+                   RedCardA=0,
+                   RedCardB=0,
                    IsConcluded = false
                 };
-               // _context.Game.Add(game);
+                _context.GameDetailTemp.Add(game);
             }
             else
             {
                 game.IsConcluded = model.IsConcluded;
-               // _context.Game.Update(game);
+                _context.GameDetailTemp.Update(game);
             }
-            _context.SaveChangesAsync();
+            await _context.SaveChangesAsync();
         }
 
         public async Task<IQueryable<Journey>> GetJourneyAsync(string userName)
@@ -64,17 +71,19 @@ namespace Liga.web.Data
             if(await _userHelper.IsUserInRoleAsync(user, "Admin"))
             {
                 return _context.Journeys
+                    .Include(u =>u.User)
                     .Include(j => j.Games)
+                    .ThenInclude(t=>t.Teams)
                     .OrderByDescending(j => j.JourneyEnd);
             }
             return _context.Journeys
                  .Include(j => j.Games)
-                    //.ThenInclude(g => g.Games)
+                 .ThenInclude(t=>t.Teams)
                     .Where(j => j.User == user)
-                    .OrderByDescending(j => j.JourneyStart);
+                    .OrderByDescending(j => j.JourneyEnd);
         }
 
-        public async Task<IQueryable<GameDetailTemp>> GetJourneyDetailTempAsync(string userName)
+        public async Task<IQueryable<GameDetailTemp>> GetJourneyDetailTempsAsync(string userName)
         {
             var user = await _userHelper.GetUserByEmailAsync(userName);
             if (user == null)
@@ -82,22 +91,24 @@ namespace Liga.web.Data
                 return null;
             }
             return _context.GameDetailTemp
-                //.Include(g => g.Games)
-                .Where(u => u.User == user);
+                .Include(g => g.TeamA)
+                .Include(g => g.TeamB)
+                .Where(u => u.User == user)
+                .OrderBy(g => g.IsConcluded);
                 
                 
         }
 
         public async Task ModifyGameAsync(int id, bool isConclude)
         {
-            var game = await _context.Game.FindAsync(id);
+            var game = await _context.GameDetailTemp.FindAsync(id);
             if(game == null)
             {
                 return;
             }
             game.IsConcluded = isConclude;
-            _context.Game.Update(game);
-            _context.SaveChangesAsync();
+            _context.GameDetailTemp.Update(game);
+            await _context.SaveChangesAsync();
         }
     }
 }

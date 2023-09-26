@@ -4,14 +4,16 @@ using Liga.web.Data;
 using Microsoft.EntityFrameworkCore;
 using Microsoft.EntityFrameworkCore.Infrastructure;
 using Microsoft.EntityFrameworkCore.Metadata;
+using Microsoft.EntityFrameworkCore.Migrations;
 using Microsoft.EntityFrameworkCore.Storage.ValueConversion;
 
 namespace Liga.web.Migrations
 {
     [DbContext(typeof(DataContext))]
-    partial class DataContextModelSnapshot : ModelSnapshot
+    [Migration("20230925222416_liga")]
+    partial class liga
     {
-        protected override void BuildModel(ModelBuilder modelBuilder)
+        protected override void BuildTargetModel(ModelBuilder modelBuilder)
         {
 #pragma warning disable 612, 618
             modelBuilder
@@ -252,7 +254,7 @@ namespace Liga.web.Migrations
                         .HasColumnType("int")
                         .HasAnnotation("SqlServer:ValueGenerationStrategy", SqlServerValueGenerationStrategy.IdentityColumn);
 
-                    b.Property<int?>("GameId")
+                    b.Property<int?>("GameDetailTempId")
                         .HasColumnType("int");
 
                     b.Property<Guid>("ImageId")
@@ -268,7 +270,7 @@ namespace Liga.web.Migrations
 
                     b.HasKey("Id");
 
-                    b.HasIndex("GameId");
+                    b.HasIndex("GameDetailTempId");
 
                     b.HasIndex("UserId");
 
@@ -484,9 +486,9 @@ namespace Liga.web.Migrations
 
             modelBuilder.Entity("Liga.web.Models.Entity.TeamEntity", b =>
                 {
-                    b.HasOne("Liga.web.Data.Entity.Game", null)
+                    b.HasOne("Liga.web.Data.Entity.GameDetailTemp", null)
                         .WithMany("Teams")
-                        .HasForeignKey("GameId");
+                        .HasForeignKey("GameDetailTempId");
 
                     b.HasOne("Liga.web.Data.Entity.User", "User")
                         .WithMany()
@@ -555,7 +557,7 @@ namespace Liga.web.Migrations
                     b.Navigation("Team");
                 });
 
-            modelBuilder.Entity("Liga.web.Data.Entity.Game", b =>
+            modelBuilder.Entity("Liga.web.Data.Entity.GameDetailTemp", b =>
                 {
                     b.Navigation("Teams");
                 });

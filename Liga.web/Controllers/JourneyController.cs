@@ -24,7 +24,7 @@ namespace Liga.web.Controllers
         }
         public async Task<IActionResult> Create()
         {
-            var model = await _journeyRepository.GetJourneyDetailTempAsync(this.User.Identity.Name);
+            var model = await _journeyRepository.GetJourneyDetailTempsAsync(this.User.Identity.Name);
             return View(model);
         }
 
@@ -44,7 +44,11 @@ namespace Liga.web.Controllers
             if (ModelState.IsValid)
             {
                 await _journeyRepository.AddGameToJourneyAsync(model, this.User.Identity.Name);
-                return RedirectToAction("Create","Journey");
+                return RedirectToAction("Create");
+            }
+            else
+            {
+                return View(model);
             }
             return View(model);
         }

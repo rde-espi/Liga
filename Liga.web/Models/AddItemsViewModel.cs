@@ -12,7 +12,7 @@ namespace Liga.web.Models
         public int TeamAId { get; set; }
 
         [Display(Name = "Team")]
-        [Compare("TeamAId")]
+        
         [Range(1, int.MaxValue, ErrorMessage = "You must select a Team.")]
         public int TeamBId { get; set; }
         

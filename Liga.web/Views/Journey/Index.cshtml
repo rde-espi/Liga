@@ -4,7 +4,7 @@
     ViewData["Title"] = "Index";
 }
 
-<h1>Index</h1>
+<h1>Journeys</h1>
 
 <p>
     <a asp-action="Create">Create New</a>
@@ -12,10 +12,13 @@
 <table class="table">
     <thead>
         <tr>
+            <th>
+                @Html.DisplayNameFor(model => model.Id)
+            </th>
             @if (this.User.IsInRole("Admin"))
             {
                 <th>
-                    @Html.DisplayNameFor(model=> model.User.FullName)
+                    @Html.DisplayNameFor(model => model.User.FullName)
                 </th>
             }
             <th>
@@ -24,26 +27,30 @@
             <th>
                 @Html.DisplayNameFor(model => model.JourneyEnd)
             </th>
-            
+            <th>
+                @Html.DisplayNameFor(model => model.Games)
+            </th>
             <th></th>
         </tr>
     </thead>
     <tbody>
 @foreach (var item in Model) {
-            <tr>
-              @if (this.User.IsInRole("Admin"))
-              {
-                <th>
-                   @Html.DisplayFor(modelItem=> item.User.FullName)
-                </th>
-              }
+        <tr>
+                <td>
+                    @Html.DisplayFor(modelItem => item.Id)
+                </td>
+                <td>
+                    @Html.DisplayFor(modelItem => item.User.FullName)
+                </td>
                 <td>
                     @Html.DisplayFor(modelItem => item.JourneyStart)
                 </td>
             <td>
                 @Html.DisplayFor(modelItem => item.JourneyEnd)
             </td>
-            
+                <td>
+                    @Html.DisplayFor(modelItem => item.Games)
+                </td>
             <td>
                 <a asp-action="Edit" asp-route-id="@item.Id">Edit</a> |
                 <a asp-action="Details" asp-route-id="@item.Id">Details</a> |
