@@ -53,5 +53,24 @@ namespace Liga.web.Controllers
             return View(model);
         }
 
+        public async Task<IActionResult> DeleteItem(int? id)
+        {
+            if (id == null)
+            {
+                return NotFound();
+            }
+            await _journeyRepository.DeleteGameAsync(id.Value);
+            return RedirectToAction("Create");
+        }
+
+        public async Task<IActionResult> StartJourney()
+        {
+            var response = await _journeyRepository.StartJourneyAsync(this.User.Identity.Name);
+            if (response)
+            {
+                return RedirectToAction("Index");
+            }
+            return RedirectToAction("Create");
+        }
     }
 }

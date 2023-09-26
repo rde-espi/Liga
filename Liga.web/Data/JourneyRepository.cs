@@ -1,5 +1,6 @@
 ﻿using Liga.web.Data.Entity;
 using Liga.web.Helpers;
+using Liga.web.Migrations;
 using Liga.web.Models;
 using Microsoft.EntityFrameworkCore;
 using System.Linq;
@@ -61,6 +62,17 @@ namespace Liga.web.Data
             await _context.SaveChangesAsync();
         }
 
+        public async Task DeleteGameAsync(int id)
+        {
+            var game = await _context.GameDetailTemp.FindAsync(id);
+            if(game == null)
+            {
+                return;
+            }
+            _context.GameDetailTemp.Remove(game);
+            _context.SaveChangesAsync();
+        }
+
         public async Task<IQueryable<Journey>> GetJourneyAsync(string userName)
         {
             var user = await _userHelper.GetUserByEmailAsync(userName);
@@ -109,6 +121,46 @@ namespace Liga.web.Data
             game.IsConcluded = isConclude;
             _context.GameDetailTemp.Update(game);
             await _context.SaveChangesAsync();
+        }
+
+        public async Task<bool> StartJourneyAsync(string userName)
+        {
+            var user = await _userHelper.GetUserByEmailAsync(userName);
+            if (user == null)
+            {
+                return false;
+            }
+            var game = _context.GameDetailTemp
+                .Include(t => t.TeamA)
+                .Include(t => t.TeamB)
+                .Where(u => u.User == user)
+                .ToList();
+            if(game == null || game.Count == 0)
+            {
+                return false;
+            }
+            var games = game.Select(g => new Game
+            {
+                TeamA = g.TeamA,
+                TeamB = g.TeamB,
+                GolsTeamA = g.GolsTeamA,
+                GolsTeamB = g.GolsTeamB,
+                YellowCardA = g.YellowCardA,
+                YellowCardB = g.YellowCardB,
+                RedCardA = g.RedCardA,
+                RedCardB = g.RedCardB,
+                IsConcluded = true
+            }).ToList();
+
+            var journey = new Journey
+            {
+                User = user,
+                Games = games,
+            };
+            await CreateAsync(journey);
+            _context.GameDetailTemp.RemoveRange(game);
+            await _context.SaveChangesAsync();
+            return true;
         }
     }
 }

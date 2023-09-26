@@ -11,5 +11,7 @@ namespace Liga.web.Data
         Task<IQueryable<GameDetailTemp>> GetJourneyDetailTempsAsync(string userName);
         Task AddGameToJourneyAsync(AddItemsViewModel model, string userName);
         Task ModifyGameAsync(int id, bool isConcluded);
+        Task DeleteGameAsync(int id);
+        Task<bool> StartJourneyAsync(string userName);
     }
 }

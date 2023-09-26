@@ -28,7 +28,7 @@
                 @Html.DisplayNameFor(model => model.JourneyEnd)
             </th>
             <th>
-                @Html.DisplayNameFor(model => model.Games)
+                @Html.DisplayNameFor(model => model.ConcludedGames)
             </th>
             <th></th>
         </tr>
@@ -49,7 +49,7 @@
                 @Html.DisplayFor(modelItem => item.JourneyEnd)
             </td>
                 <td>
-                    @Html.DisplayFor(modelItem => item.Games)
+                    @Html.DisplayFor(modelItem => item.ConcludedGames)
                 </td>
             <td>
                 <a asp-action="Edit" asp-route-id="@item.Id">Edit</a> |
