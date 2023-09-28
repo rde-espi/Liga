@@ -172,8 +172,26 @@ namespace Liga.web.Controllers
         public async Task<IActionResult> DeleteConfirmed(int id)
         {
             var teamEntity = await _teamRepository.GetByIdAsync(id);
-            await _teamRepository.DeleteAsync(teamEntity);
-            return RedirectToAction(nameof(Index));
+            try
+            {
+                throw new Exception("Exception test");
+                await _teamRepository.DeleteAsync(teamEntity);
+                return RedirectToAction(nameof(Index));
+            }
+            catch (DbUpdateException ex)
+            {
+                if (ex.InnerException != null && ex.InnerException.Message.Contains("DELETE"))
+                {
+                    ViewBag.ErrorTitle = $"{teamEntity.Name} is in midle of a journey!!";
+                    ViewBag.ErrorMessage = $"{teamEntity.Name} can not be deleted while is subscribed in a journey.</br></br>" +
+                    $"remove the subscription of all journeys" +
+                    $"and try again";
+
+                }
+                return View("Error");
+
+
+            }
         }
 
         public IActionResult ProductNotFound()
